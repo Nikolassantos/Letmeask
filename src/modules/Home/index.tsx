@@ -3,7 +3,7 @@ import { IViewProps } from './types';
 import { useHistory } from 'react-router-dom';
 
 import Home from './view';
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../global/hooks/useAuth';
 
 function HomeContainer() {
   const { user, signInWithGoogle } = useAuth();
