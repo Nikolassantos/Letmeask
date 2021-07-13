@@ -8,7 +8,7 @@ import Button from '../../components/Button';
 import '../../global/styles/auth.scss';
 
 function Home(props: IViewProps) {
-  const { handleCreateRoom } = props;
+  const { handleCreateRoom, handleJoinRoom, roomCode, handleSetRoom } = props;
 
   return (
     <div id="page-auth">
@@ -28,8 +28,13 @@ function Home(props: IViewProps) {
             Crie sua sala com o Google
           </button>
           <div className="separator">ou entre em uma sala</div>
-          <form action="">
-            <input type="text" placeholder="Digite o código da sala" />
+          <form onSubmit={handleJoinRoom}>
+            <input
+              type="text"
+              placeholder="Digite o código da sala"
+              value={roomCode}
+              onChange={handleSetRoom}
+            />
             <Button type="submit">Entrar na sala</Button>
           </form>
         </div>

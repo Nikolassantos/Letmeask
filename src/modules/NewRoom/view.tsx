@@ -8,7 +8,7 @@ import '../../global/styles/auth.scss';
 import { IViewProps } from './types';
 
 function NewRoom(props: IViewProps) {
-  const {} = props;
+  const { handleCreateRoom, newRoom, handleNewRoom } = props;
 
   return (
     <div id="page-auth">
@@ -24,8 +24,13 @@ function NewRoom(props: IViewProps) {
         <div className="main-content">
           <img src={logoImg} alt="Letmeask" />
           <h2>Criar uma nova sala</h2>
-          <form action="">
-            <input type="text" placeholder="Nome da sala" />
+          <form onSubmit={handleCreateRoom}>
+            <input
+              type="text"
+              placeholder="Nome da sala"
+              value={newRoom}
+              onChange={handleNewRoom}
+            />
             <Button type="submit">Criar sala</Button>
           </form>
           <p>

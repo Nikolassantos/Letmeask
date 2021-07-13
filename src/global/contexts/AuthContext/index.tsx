@@ -1,20 +1,7 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
-import { firebase, auth } from '../../services/firebase';
-
-type AuthContextType = {
-  user: User | undefined;
-  signInWithGoogle(): Promise<void>;
-};
-
-type User = {
-  id: string;
-  name: string;
-  avatar: string;
-};
-
-type AuthContextProviderProps = {
-  children: ReactNode;
-};
+import { createContext, useEffect, useState } from 'react';
+import { firebase, auth } from '../../../services/firebase';
+import { User } from '../../interfaces/AuthContext';
+import { AuthContextProviderProps, AuthContextType } from './types';
 
 export const AuthContext = createContext({} as AuthContextType);
 
