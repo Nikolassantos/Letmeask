@@ -38,6 +38,9 @@ function HomeContainer() {
       return;
     }
 
+    if (roomRef.val().endedAt) {
+      alert('Room already closed.');
+    }
     history.push(`/rooms/${roomCode}`);
   }
 
