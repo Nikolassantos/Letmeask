@@ -1,32 +1,22 @@
+import { createElement } from 'react';
+
 import { useHistory, useParams } from 'react-router-dom';
-
-import logoImg from '../../assets/images/logo.svg';
-
-import '../../global/styles/room.scss';
-import Button from '../../components/Button';
-import RoomCode from '../../components/RoomCode';
-// import useAuth from '../../global/hooks/useAuth';
-import Question from '../../components/Question';
 import useRoom from '../../global/hooks/useRoom';
-import checkImg from '../../assets/images/check.svg';
-import answerImg from '../../assets/images/answer.svg';
-
-import deleteImg from '../../assets/images/delete.svg';
 import { database } from '../../services/firebase';
-import { Fragment } from 'react';
+
+import { IViewProps } from './types';
+
+import Room from './view';
 
 interface RoomParams {
   id: string;
 }
 
-function AdminRoom() {
+function AdminRoomContainer() {
   const params = useParams<RoomParams>();
-  // const { user } = useAuth();
   const roomId = params.id;
-
-  const history = useHistory();
-
   const { questions, title } = useRoom(roomId);
+  const history = useHistory();
 
   async function handleEndRoom() {
     await database.ref(`rooms/${roomId}`).update({
@@ -54,62 +44,17 @@ function AdminRoom() {
     });
   }
 
-  return (
-    <div id="page-room">
-      <header>
-        <div className="content">
-          <img src={logoImg} alt="Letmeask" />
-          <div>
-            <RoomCode code={roomId} />
-            <Button isOutlined onClick={handleEndRoom}>
-              Encerrar sala
-            </Button>
-          </div>
-        </div>
-      </header>
-      <main>
-        <div className="room-title">
-          <h1>Sala {title}</h1>
-          {questions.length > 0 && <span>{questions.length} pergunta(s)</span>}
-        </div>
+  const viewProps: IViewProps = {
+    handleEndRoom,
+    handleDeleteQuestion,
+    handleCheckQuestionAnswered,
+    handleHighlightQuestion,
+    roomId,
+    title,
+    questions,
+  };
 
-        <div className="question-list">
-          {questions.map((question) => (
-            <Question
-              key={question.id}
-              content={question.content}
-              author={question.author}
-              isHighlighted={question.isHighlighted}
-              isAnswered={question.isAnswered}
-            >
-              {!question.isAnswered && (
-                <Fragment>
-                  <button
-                    type="button"
-                    onClick={() => handleCheckQuestionAnswered(question.id)}
-                  >
-                    <img src={checkImg} alt="Marcar pergunta como respondida" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleHighlightQuestion(question.id)}
-                  >
-                    <img src={answerImg} alt="Dar destaque à pergunta" />
-                  </button>
-                </Fragment>
-              )}
-              <button
-                type="button"
-                onClick={() => handleDeleteQuestion(question.id)}
-              >
-                <img src={deleteImg} alt="Remover Pergunta" />
-              </button>
-            </Question>
-          ))}
-        </div>
-      </main>
-    </div>
-  );
+  return createElement(Room, viewProps);
 }
 
-export default AdminRoom;
+export default AdminRoomContainer;
