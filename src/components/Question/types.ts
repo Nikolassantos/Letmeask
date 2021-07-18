@@ -7,4 +7,6 @@ export interface IQuestionProps {
     avatar: string;
   };
   children?: ReactNode;
+  isAnswered?: boolean;
+  isHighlighted?: boolean;
 }
